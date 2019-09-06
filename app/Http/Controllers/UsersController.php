@@ -37,17 +37,30 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-      // return $request->input('real_name');
-
       $user = new \App\User();
       $user->name = $request->input('name');
       $user->email = $request->input('email');
       $user->password = Hash::make($request->input('password'));
       $user->level = $request->input('level');
       $user->active = true;
-      // return $user;
-      $user->save();
-      return redirect('users')->with('notice', 'El usuario ha sido creado correctamente.');
+
+      $validator = \App\User::validate([
+        'name' => $user->name,
+        'email' => $user->email,
+        'password' => $request->input('password'),
+        'level' => $user->level,
+      ]);
+
+      if($validator->fails()){
+        $errors = $validator->messages();
+        $user->password = null;
+        // return redirect('users/create')->with('user', $user)->with('errors', $errors);
+        return view('users.save')->with('user', $user)->with('errors', $errors);
+        // return redirect()->back()->with('errors', $errors);
+      }else{
+        $user->save();
+        return redirect('users')->with('notice', 'El usuario ha sido creado correctamente.');
+      }
     }
 
     /**
@@ -87,8 +100,20 @@ class UsersController extends Controller
       $user->name = $request->input('name');
       $user->email = $request->input('email');
       $user->level = $request->input('level');
-      $user->save();
-      return redirect('users')->with('notice', 'El usuario ha sido modificado correctamente.');
+
+      $validator = \App\User::validate([
+        'name' => $user->name,
+        'email' => $user->email,
+        'level' => $user->level,
+      ], $user->id);
+// return $user;
+      if($validator->fails()){
+         $errors = $validator->messages();
+         return view('users.save')->with('user', $user)->with('errors', $errors);
+      }else{
+         $user->save();
+         return redirect('users')->with('notice', 'El usuario ha sido modificado correctamente.');
+      }
     }
 
     /**

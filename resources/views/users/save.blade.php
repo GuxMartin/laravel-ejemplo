@@ -6,6 +6,15 @@
  </head>
  <body>
     <h1> Guardar usuario </h1>
+    @if($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
     <form action='{{ url ("users/{$user->id}") }}' method="post">
       @csrf
       <label for="name">Nombre</label>
