@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\User;
 
 class UsersController extends Controller
 {
@@ -14,7 +15,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-      $users = \App\User::all();
+      $users = User::all();
       return view('users.index', ["users"=>$users]);
     }
 
@@ -25,7 +26,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-      $user = new \App\User();
+      $user = new User();
       return view('users.save')->with('user', $user);
     }
 
@@ -37,14 +38,14 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-      $user = new \App\User();
+      $user = new User();
       $user->name = $request->input('name');
       $user->email = $request->input('email');
       $user->password = Hash::make($request->input('password'));
       $user->level = $request->input('level');
       $user->active = true;
 
-      $validator = \App\User::validate([
+      $validator = User::validate([
         'name' => $user->name,
         'email' => $user->email,
         'password' => $request->input('password'),
@@ -71,7 +72,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-      $user = \App\User::find($id);
+      $user = User::find($id);
       return view('users.show')->with('user', $user);
     }
 
@@ -83,7 +84,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-      $user = \App\User::find($id);
+      $user = User::find($id);
       return view('users.save')->with('user', $user);
     }
 
@@ -96,12 +97,12 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $user = \App\User::find($id);
+      $user = User::find($id);
       $user->name = $request->input('name');
       $user->email = $request->input('email');
       $user->level = $request->input('level');
 
-      $validator = \App\User::validate([
+      $validator = User::validate([
         'name' => $user->name,
         'email' => $user->email,
         'level' => $user->level,
@@ -124,7 +125,7 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-      $user = \App\User::find($id);
+      $user = User::find($id);
       $user->delete();
       return redirect('users')->with('notice', 'El usuario ha sido eliminado correctamente.');
     }
