@@ -56,3 +56,7 @@ Route::get('test/getusuario/{id}', 'TestController@getUsuario')->where('id', '[0
 
 // CRUD
 Route::resource('users', 'UsersController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

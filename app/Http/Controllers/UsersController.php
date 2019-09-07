@@ -55,9 +55,7 @@ class UsersController extends Controller
       if($validator->fails()){
         $errors = $validator->messages();
         $user->password = null;
-        // return redirect('users/create')->with('user', $user)->with('errors', $errors);
         return view('users.save')->with('user', $user)->with('errors', $errors);
-        // return redirect()->back()->with('errors', $errors);
       }else{
         $user->save();
         return redirect('users')->with('notice', 'El usuario ha sido creado correctamente.');
