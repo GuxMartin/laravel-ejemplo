@@ -3,6 +3,7 @@
  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title> Usuarios </title>
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
  </head>
  <body>
     <h1> Usuarios </h1>
