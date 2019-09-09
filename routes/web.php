@@ -60,3 +60,37 @@ Route::resource('users', 'UsersController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('test', function(){
+   // //Registro 1
+   // $post1 = new \App\Post();
+   // $post1->title = 'Título 1';
+   // $post1->body = 'Contenido 1';
+   // $post1->user_id = 1;
+   // $post1->save();
+   // //Registro 1
+   // $post2 = new \App\Post();
+   // $post2->title = 'Título 2';
+   // $post2->body = 'Contenido 2';
+   // $post2->user_id = 1;
+   // $post2->save();
+   // //Registro 1
+   // $post3 = new \App\Post();
+   // $post3->title = 'Título 3';
+   // $post3->body = 'Contenido 3';
+   // $post3->user_id = 1;
+   // $post3->save();
+   
+   $user = \App\User::find(1);
+   $posts = $user->posts;
+   $lista = '<ul>';
+   foreach($posts as $item){
+      $lista .= '<li>';
+      $lista .= '<h2> ' . $item['title'] . ' </h2>';
+      $lista .= '<div> ' . $item['body'] . ' </div>';
+      $lista .= '</li>';
+   }
+   $lista .= '</ul>';
+   return $lista;
+});

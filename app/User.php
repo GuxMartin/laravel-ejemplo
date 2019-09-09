@@ -67,4 +67,8 @@ class User extends Authenticatable
       if($id){ unset($reglas['password']); }
       return Validator::make($data, $reglas, self::$messages);
     }
+
+    public function posts(){
+       return $this->hasMany('App\Post');
+    }
 }
